@@ -11,6 +11,8 @@ config :ai_todo_list,
   ecto_repos: [AiTodoList.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :ai_todo_list, AiTodoList.Repo, types: AiTodoList.PostgrexTypes
+
 # Configures the endpoint
 config :ai_todo_list, AiTodoListWeb.Endpoint,
   url: [host: "localhost"],

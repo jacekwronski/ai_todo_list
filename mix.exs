@@ -57,7 +57,12 @@ defmodule AiTodoList.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+      {:bumblebee, "~> 0.5.3", github: "elixir-nx/bumblebee", override: true},
+      {:axon, "~> 0.5", override: true},
+      {:exla, "~> 0.5"},
+      {:nx, "~> 0.5", override: true},
+      {:pgvector, "~> 0.2.0"}
     ]
   end
 

@@ -5,7 +5,7 @@ defmodule AiTodoList.Repo.Migrations.CreateTodos do
     create table(:todos) do
       add :text, :string
       add :completed, :boolean, default: false, null: false
-      add :embedding, :binary
+      add :embedding, :vector, size: 256
 
       timestamps(type: :utc_datetime)
     end

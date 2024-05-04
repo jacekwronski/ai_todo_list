@@ -7,6 +7,8 @@ defmodule AiTodoList.Application do
 
   @impl true
   def start(_type, _args) do
+    Nx.global_default_backend(EXLA.Backend)
+
     children = [
       AiTodoListWeb.Telemetry,
       AiTodoList.Repo,
@@ -17,7 +19,17 @@ defmodule AiTodoList.Application do
       # Start a worker by calling: AiTodoList.Worker.start_link(arg)
       # {AiTodoList.Worker, arg},
       # Start to serve requests, typically the last entry
-      AiTodoListWeb.Endpoint
+      AiTodoListWeb.Endpoint,
+      {Nx.Serving,
+       serving: AiTodoList.Model.serving(defn_options: [compiler: EXLA]),
+       batch_size: 16,
+       batch_timeout: 100,
+       name: AiTodoListModel},
+      {Nx.Serving,
+       serving: AiTodoList.ActionsModel.serving(defn_options: [compiler: EXLA]),
+       batch_size: 16,
+       batch_timeout: 100,
+       name: AiTodoListActionsModel}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

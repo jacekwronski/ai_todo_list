@@ -1,0 +1,4 @@
+version: '3'
+services:
+  persistence:
+    image: tobi312/rpi-postgresql-postgis:14-3.3-alpine-arm64

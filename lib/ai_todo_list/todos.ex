@@ -3,6 +3,7 @@ defmodule AiTodoList.Todos do
   The Todos context.
   """
 
+  import Pgvector.Ecto.Query
   import Ecto.Query, warn: false
   alias AiTodoList.Repo
 
@@ -52,7 +53,49 @@ defmodule AiTodoList.Todos do
   def create_todo(attrs \\ %{}) do
     %Todo{}
     |> Todo.changeset(attrs)
+    |> Todo.put_embedding()
     |> Repo.insert()
+  end
+
+  def todo_is_done(text) do
+    embedding = AiTodoList.Model.predict(text)
+
+    IO.inspect(text, label: "TEXT ---############")
+    IO.inspect(embedding, label: "############")
+
+    todo =
+      Todo
+      |> order_by([b], l2_distance(b.embedding, ^embedding.embedding))
+      |> limit(1)
+      |> Repo.one()
+
+    IO.inspect(todo, label: "############")
+
+    # new_todo = %{todo | completed: true}
+
+    todo
+    |> Todo.changeset(%{completed: true})
+    |> Repo.update()
+  end
+
+  def delete(text) do
+    embedding = AiTodoList.Model.predict(text)
+
+    IO.inspect(text, label: "TEXT ---############")
+    IO.inspect(embedding, label: "############")
+
+    todo =
+      Todo
+      |> order_by([b], l2_distance(b.embedding, ^embedding.embedding))
+      |> limit(1)
+      |> Repo.one()
+
+    IO.inspect(todo, label: "############")
+
+    # new_todo = %{todo | completed: true}
+
+    todo
+    |> Repo.delete()
   end
 
   @doc """
@@ -98,7 +141,20 @@ defmodule AiTodoList.Todos do
       %Ecto.Changeset{data: %Todo{}}
 
   """
-  def change_todo(%Todo{} = todo, attrs \\ %{}) do
+  def change_todo(nil, attrs) do
+    Todo.changeset(%Todo{}, attrs)
+  end
+
+  def change_todo(%Todo{} = todo, attrs) do
     Todo.changeset(todo, attrs)
+  end
+
+  def search(query) do
+    embedding = AiTodoList.Model.predict(query)
+
+    Todo
+    |> order_by([b], l2_distance(b.embedding, ^embedding.embedding))
+    |> limit(5)
+    |> Repo.all()
   end
 end

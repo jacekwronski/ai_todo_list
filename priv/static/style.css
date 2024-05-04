@@ -1,0 +1,8 @@
+#todo-form > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+#todo-form > div > div[phx-feedback-for="todo[text]"] {
+  width: 70%;
+}
