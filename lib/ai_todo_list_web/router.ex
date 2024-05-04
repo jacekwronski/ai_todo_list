@@ -17,13 +17,13 @@ defmodule AiTodoListWeb.Router do
   scope "/", AiTodoListWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    live "/todos", TodoLive.Index, :index
-    live "/todos/new", TodoLive.Index, :new
-    live "/todos/:id/edit", TodoLive.Index, :edit
+    # get "/", PageController, :home
+    live "/", TodoLive.Index, :index
+    live "/new", TodoLive.Index, :new
+    live "/:id/edit", TodoLive.Index, :edit
 
-    live "/todos/:id", TodoLive.Show, :show
-    live "/todos/:id/show/edit", TodoLive.Show, :edit
+    live "/:id", TodoLive.Show, :show
+    live "/:id/show/edit", TodoLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
