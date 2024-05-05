@@ -60,16 +60,11 @@ defmodule AiTodoList.Todos do
   def todo_is_done(text) do
     embedding = AiTodoList.Model.predict(text)
 
-    IO.inspect(text, label: "TEXT ---############")
-    IO.inspect(embedding, label: "############")
-
     todo =
       Todo
       |> order_by([b], l2_distance(b.embedding, ^embedding.embedding))
       |> limit(1)
       |> Repo.one()
-
-    IO.inspect(todo, label: "############")
 
     # new_todo = %{todo | completed: true}
 
@@ -81,16 +76,11 @@ defmodule AiTodoList.Todos do
   def delete(text) do
     embedding = AiTodoList.Model.predict(text)
 
-    IO.inspect(text, label: "TEXT ---############")
-    IO.inspect(embedding, label: "############")
-
     todo =
       Todo
       |> order_by([b], l2_distance(b.embedding, ^embedding.embedding))
       |> limit(1)
       |> Repo.one()
-
-    IO.inspect(todo, label: "############")
 
     # new_todo = %{todo | completed: true}
 

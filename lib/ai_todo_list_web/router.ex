@@ -20,10 +20,6 @@ defmodule AiTodoListWeb.Router do
     # get "/", PageController, :home
     live "/", TodoLive.Index, :index
     live "/new", TodoLive.Index, :new
-    live "/:id/edit", TodoLive.Index, :edit
-
-    live "/:id", TodoLive.Show, :show
-    live "/:id/show/edit", TodoLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -36,15 +36,6 @@ defmodule AiTodoListWeb.TodoLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"todo" => todo_params}, socket) do
-    changeset =
-      socket.assigns.todo
-      |> Todos.change_todo(todo_params)
-      |> Map.put(:action, :validate)
-
-    {:noreply, assign_form(socket, changeset)}
-  end
-
   def handle_event("save", %{"todo" => todo_params}, socket) do
     %{"text" => text} = todo_params
     %{predictions: [%{label: label} | _]} = ActionsModel.predict_action(text)

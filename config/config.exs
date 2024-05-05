@@ -13,6 +13,8 @@ config :ai_todo_list,
 
 config :ai_todo_list, AiTodoList.Repo, types: AiTodoList.PostgrexTypes
 
+config :nx, :default_backend, {EXLA.Backend, []}
+
 # Configures the endpoint
 config :ai_todo_list, AiTodoListWeb.Endpoint,
   url: [host: "localhost"],
